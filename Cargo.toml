@@ -1,0 +1,12 @@
+[package]
+name = "fiveetoolsapi"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = "0.5"
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.11", features = ["json"] }
+serde_json = "1.0"
+serde = "1.0.217"
+regex = "1.11.1"
