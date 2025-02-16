@@ -5,15 +5,14 @@ use std::net::SocketAddr;
 use serde::Deserialize;
 
 mod schema;
-mod filters;
+mod filter_monsters;
+mod filter_spells;
 
 /// Load user data from the file or return an empty JSON array if there's an error
-fn load_user_data(path: &str) -> Value {
+fn load_user_data(path: &str, key: &str) -> Value {
     let content = fs::read_to_string(path).unwrap_or_else(|_| "{}".to_string());
-    let data: Value = serde_json::from_str(&content).unwrap_or_else(|_| serde_json::json!({ "monster": [] }));
-
-    // Ensure we're returning the actual monster array
-    data.get("monster").cloned().unwrap_or_else(|| serde_json::json!([]))
+    let data: Value = serde_json::from_str(&content).unwrap_or_else(|_| serde_json::json!({ key: [] }));
+    data.get(key).cloned().unwrap_or_else(|| serde_json::json!([]))
 }
 
 /// Define query parameters structure
@@ -30,27 +29,46 @@ struct MonsterQuery {
     speed_type: Option<String>
 }
 
+#[derive(Deserialize)]
+struct SpellQuery {
+    level: Option<u8>,
+    school: Option<String>,
+    casting_time: Option<String>,
+    range: Option<String>,
+    component_v: Option<bool>,
+    component_s: Option<bool>,
+    component_m: Option<bool>,
+    duration: Option<String>,
+}
 
 /// Endpoint to query monsters with filtering based on the query parameters
 async fn query_monsters(query: Query<MonsterQuery>) -> Json<Value> {
     let schema = schema::get_monster_schema().unwrap();  // Load monster schema
-    let filters = filters::generate_filters(&schema);    // Generate filters from schema
+    let filters = filter_monsters::generate_filters(&schema);    // Generate filters from schema
 
     // Load user-provided monster data
-    let data = load_user_data("./user_data/bestiary-mm.json");
-
+    let data = load_user_data("./user_data/bestiary-mm.json", "monster");
     // Apply the filters to the loaded data
-    let filtered_monsters = filters::filter_monsters(&data, &filters, &query);
+    let filtered_monsters = filter_monsters::filter_monsters(&data, &filters, &query);
 
     // Return the filtered monsters in JSON format
     Json(serde_json::json!({ "monsters": filtered_monsters }))
 }
 
+async fn query_spells(query: Query<SpellQuery>) -> Json<Value> {
+    let data = load_user_data("./user_data/spells.json", "spell");
+
+    let filtered_spells = filter_spells::filter_spells(&data, &query);
+    Json(serde_json::json!({ "spells": filtered_spells }))
+}
+
+
 #[tokio::main]
 async fn main() {
     let app = Router::new()
         .route("/", get(|| async { Json(serde_json::json!({ "message": "Local 5eTools API" })) }))
-        .route("/monsters", get(query_monsters));
+        .route("/monsters", get(query_monsters))
+        .route("/spells", get(query_spells));
 
     // Start the server on port 8000
     let addr = SocketAddr::from(([127, 0, 0, 1], 8000));

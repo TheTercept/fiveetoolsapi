@@ -141,7 +141,6 @@ pub fn filter_monsters(data: &Value, filters: &HashSet<String>, query: &MonsterQ
                 }
             }
 
-
             // Environment filter (allowing partial matches & case-insensitive search)
             // NOTE: Not all creatures have a listed environment, those with no environment will be shown with this filter
             if let Some(ref env_filter) = query.environment {
