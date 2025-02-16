@@ -31,8 +31,6 @@ curl "http://localhost:8000/spells?casting_time=action"
 curl "http://localhost:8000/spells?range=touch"
 curl "http://localhost:8000/spells?component_v=true"
 curl "http://localhost:8000/spells?duration=concentration"
-
-
 ```
 
-$_{Per 5eTools custom, the latest D\&D 5e rules will be supported}$
+*Per 5eTools custom, the latest D\&D 5e rules will be supported*
