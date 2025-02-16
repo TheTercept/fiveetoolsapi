@@ -49,7 +49,7 @@ async fn query_monsters(query: Query<MonsterQuery>) -> Json<Value> {
     // Load user-provided monster data
     let data = load_user_data("./user_data/bestiary-mm.json", "monster");
     // Apply the filters to the loaded data
-    let filtered_monsters = filter_monsters::filter_monsters(&data, &filters, &query);
+    let filtered_monsters = filter_monsters::filter_monsters(&data, &query);
 
     // Return the filtered monsters in JSON format
     Json(serde_json::json!({ "monsters": filtered_monsters }))

@@ -18,7 +18,7 @@ pub fn generate_filters(schema: &Value) -> HashSet<String> {
     filters
 }
 
-pub fn filter_monsters(data: &Value, filters: &HashSet<String>, query: &MonsterQuery) -> Vec<Value> {
+pub fn filter_monsters(data: &Value, query: &MonsterQuery) -> Vec<Value> {
     data.as_array()
         .unwrap_or(&vec![])
         .iter()
