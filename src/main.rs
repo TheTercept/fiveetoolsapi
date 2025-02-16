@@ -11,9 +11,20 @@ mod filter_spells;
 /// Load user data from the file or return an empty JSON array if there's an error
 fn load_user_data(path: &str, key: &str) -> Value {
     let content = fs::read_to_string(path).unwrap_or_else(|_| "{}".to_string());
-    let data: Value = serde_json::from_str(&content).unwrap_or_else(|_| serde_json::json!({ key: [] }));
-    data.get(key).cloned().unwrap_or_else(|| serde_json::json!([]))
+    let data: Value = serde_json::from_str(&content).unwrap_or_else(|_| {
+        println!("Failed to parse JSON from {}", path);
+        serde_json::json!({ key: [] })
+    });
+
+    let extracted_data = data.get(key).cloned().unwrap_or_else(|| {
+        println!("Key '{}' not found in {}", key, path);
+        serde_json::json!([])
+    });
+
+    //println!("Loaded data for '{}': {:?}", key, extracted_data);
+    extracted_data
 }
+
 
 /// Define query parameters structure
 #[derive(Deserialize)]
@@ -39,6 +50,8 @@ struct SpellQuery {
     component_s: Option<bool>,
     component_m: Option<bool>,
     duration: Option<String>,
+    concentration: Option<bool>,
+    ritual: Option<bool>
 }
 
 /// Endpoint to query monsters with filtering based on the query parameters
@@ -56,7 +69,7 @@ async fn query_monsters(query: Query<MonsterQuery>) -> Json<Value> {
 }
 
 async fn query_spells(query: Query<SpellQuery>) -> Json<Value> {
-    let data = load_user_data("./user_data/spells.json", "spell");
+    let data = load_user_data("./user_data/spells-phb.json", "spell");
 
     let filtered_spells = filter_spells::filter_spells(&data, &query);
     Json(serde_json::json!({ "spells": filtered_spells }))

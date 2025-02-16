@@ -26,11 +26,28 @@ curl "http://localhost:8000/monsters?environment=swamp"
 ### Spells (NOT YET ADDED)
 ```bash
 curl "http://localhost:8000/spells?level=3"
-curl "http://localhost:8000/spells?school=Evocation"
+curl "http://localhost:8000/spells?school=e" // enchantment
+curl "http://localhost:8000/spells?school=a" // abjuration
+curl "http://localhost:8000/spells?school=v" // evocation
+curl "http://localhost:8000/spells?school=c" // conjration
+curl "http://localhost:8000/spells?school=i" // illusion
+curl "http://localhost:8000/spells?school=n" // necromancy
+curl "http://localhost:8000/spells?school=t" // transmutation
+curl "http://localhost:8000/spells?school=p" // psionic
 curl "http://localhost:8000/spells?casting_time=action"
+curl "http://localhost:8000/spells?casting_time=bonus%20action"
+curl "http://localhost:8000/spells?casting_time=reaction"
+curl "http://localhost:8000/spells?casting_time=1%20minute"
+curl "http://localhost:8000/spells?casting_time=1%20hour"
+curl "http://localhost:8000/spells?casting_time=10%20minute"
+curl "http://localhost:8000/spells?casting_time=more%20than%20one%20hour"
+curl "http://localhost:8000/spells?casting_time=other"
 curl "http://localhost:8000/spells?range=touch"
 curl "http://localhost:8000/spells?component_v=true"
-curl "http://localhost:8000/spells?duration=concentration"
+curl "http://localhost:8000/spells?component_s=true&component_v=false"
+curl "http://localhost:8000/spells?duration=permanent"
+curl "http://localhost:8000/spells?concentration=true"
+curl "http://localhost:8000/spells?duration=instant&concentration=false"
 ```
 
 *Per 5eTools custom, the latest D\&D 5e rules will be supported*
