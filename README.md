@@ -9,6 +9,7 @@ Use `cargo run` to build and execute the application. Downloadable binaries will
 
 ## Example Queries:
 
+### Monsters / Bestiary
 ```bash
 curl "http://localhost:8000/monsters?size=Large"
 curl "http://localhost:8000/monsters?alignment=Chaotic%20Evil"
@@ -19,6 +20,18 @@ curl "http://localhost:8000/monsters?ac=15"
 curl "http://localhost:8000/monsters?cr=1"
 curl "http://localhost:8000/monsters?type_=Aberration"
 curl "http://localhost:8000/monsters?environment=swamp"
+
+```
+
+### Spells (NOT YET ADDED)
+```bash
+curl "http://localhost:8000/spells?level=3
+curl "http://localhost:8000/spells?school=Evocation"
+curl "http://localhost:8000/spells?casting_time=action"
+curl "http://localhost:8000/spells?range=touch"
+curl "http://localhost:8000/spells?component_v=true"
+curl "http://localhost:8000/spells?duration=concentration"
+
 
 ```
 
