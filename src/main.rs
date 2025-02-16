@@ -19,9 +19,17 @@ fn load_user_data(path: &str) -> Value {
 /// Define query parameters structure
 #[derive(Deserialize)]
 struct MonsterQuery {
-    type_: Option<String>,  // `type_` instead of `type` because `type` is a reserved keyword
-    cr: Option<String>,     // Challenge Rating filter
+    type_: Option<String>,
+    cr: Option<String>,
+    size: Option<String>,
+    alignment: Option<String>,
+    ac: Option<String>,
+    hp: Option<String>,
+    speed: Option<String>,
+    environment: Option<String>,
+    speed_type: Option<String>
 }
+
 
 /// Endpoint to query monsters with filtering based on the query parameters
 async fn query_monsters(query: Query<MonsterQuery>) -> Json<Value> {
