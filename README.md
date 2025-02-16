@@ -25,7 +25,7 @@ curl "http://localhost:8000/monsters?environment=swamp"
 
 ### Spells (NOT YET ADDED)
 ```bash
-curl "http://localhost:8000/spells?level=3
+curl "http://localhost:8000/spells?level=3"
 curl "http://localhost:8000/spells?school=Evocation"
 curl "http://localhost:8000/spells?casting_time=action"
 curl "http://localhost:8000/spells?range=touch"
